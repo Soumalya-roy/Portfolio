@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soumalya Roy's Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-theme {
+            background: #000000;
+            color: #e67e22;
+        }
+
+        .navbar {
+            background: #fff;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+
+        body.dark-theme .navbar {
+            background: #1a1a1a;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .nav-links a {
+            color: #e67e22;
+        }
+
+        .nav-links a:hover {
+            color: #e67e22;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        body.dark-theme .theme-toggle {
+            color: #e67e22;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.2);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #007bff, #00ddeb);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        body.dark-theme .hero {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 10;
+        }
+
+        .hero .profile-pic {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            border: 6px solid transparent;
+            background: linear-gradient(45deg, #007bff, #00ddeb, #ff6b6b) border-box;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5), 0 0 40px rgba(0, 221, 235, 0.3);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        body.dark-theme .hero .profile-pic {
+            background: linear-gradient(45deg, #e67e22, #f39c12, #d35400) border-box;
+            box-shadow: 0 0 20px rgba(230, 126, 34, 0.5), 0 0 40px rgba(243, 156, 18, 0.3);
+        }
+
+        .hero .profile-pic:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.7), 0 0 60px rgba(0, 221, 235, 0.5);
+        }
+
+        body.dark-theme .hero .profile-pic:hover {
+            box-shadow: 0 0 30px rgba(230, 126, 34, 0.7), 0 0 60px rgba(243, 156, 18, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-content h1 {
+            color: #404040;
+        }
+
+        body.dark-theme .hero-content h1 {
+            color: #808080; 
+        }
+
+        .hero-content .name {
+            color: #8a2be2; 
+        }
+
+        body.dark-theme .hero-content .name {
+            color: #f1c40f;
+        }
+
+        .hero-content h3 {
+            color: #404040;
+        }
+
+        body.dark-theme .hero-content h3 {
+            color: #808080;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-bubble {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #007bff; /* Blue in light mode */
+            color: white; /* White text for contrast */
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 200;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, color 0.3s;
+        }
+
+        body.dark-theme .chat-bubble {
+            background: #e67e22; /* Orange in dark mode */
+            color: white; /* White text for contrast */
+        }
+
+        .chat-bubble:hover {
+            transform: translateY(-5px);
+        }
+
+        .chat-overlay {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
+            z-index: 300;
+            margin: 0 2rem 2rem 0;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+
+        body.dark-theme .chat-overlay {
+            background: #1a1a1a;
+        }
+
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        body.dark-theme .chat-header {
+            background: #e67e22;
+        }
+
+        .chat-header h3 {
+            font-size: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .chat-body {
+            padding: 1rem;
+            height: calc(100% - 140px);
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 0.5rem 0;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            max-width: 80%;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-message {
+            background: #007bff;
+            color: white;
+            margin-left: auto;
+            justify-content: flex-end;
+            transition: background 0.3s;
+        }
+
+        body.dark-theme .user-message {
+            background: #e67e22;
+        }
+
+        .ai-message {
+            background: #f0f0f0;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-theme .ai-message {
+            background: #2c2c2c;
+            color: #e67e22;
+        }
+
+        .typing-indicator {
+            background: #f0f0f0;
+            color: #666;
+            font-style: italic;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-theme .typing-indicator {
+            background: #2c2c2c;
+            color: #e67e22;
+        }
+
+        .chat-input {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 1rem;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        body.dark-theme .chat-input {
+            background: #1a1a1a;
+            border-top: 1px solid #444;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        body.dark-theme .chat-input input {
+            border-color: #e67e22;
+            background: #2c2c2c;
+            color: #e67e22;
+        }
+
+        .chat-input button {
+            padding: 0.5rem 1rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        body.dark-theme .chat-input button {
+            background: #e67e22;
+        }
+
+        .chat-input button:hover {
+            background: #0056b3;
+        }
+
+        body.dark-theme .chat-input button:hover {
+            background: #d35400;
+        }
+
+        /* Skills Section Styles */
+        .skills {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .skills-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .skills-left {
+            flex: 1;
+            text-align: left;
+        }
+
+        .skills-left h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .skills-left h2 {
+            color: #e67e22;
+        }
+
+        .skills-left p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .skills-left p {
+            color: #e0e0e0;
+        }
+
+        .skills-right {
+            flex: 2;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .skill-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 220px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s;
+        }
+
+        body.dark-theme .skill-card {
+            background: #1a1a1a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        body.dark-theme .skill-card:hover {
+            box-shadow: 0 6px 15px rgba(0,0,0,0.7);
+        }
+
+        .skill-card h3 {
+            font-size: 1.2rem;
+            color: #007bff;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .skill-card h3 {
+            color: #e67e22;
+        }
+
+        .skill-card p {
+            font-size: 0.9rem;
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .skill-card p {
+            color: #e0e0e0;
+        }
+
+        /* Scrollbar styling for horizontal scroll */
+        .skills-right::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .skills-right::-webkit-scrollbar-thumb {
+            background: #007bff;
+            border-radius: 4px;
+        }
+
+        body.dark-theme .skills-right::-webkit-scrollbar-thumb {
+            background: #e67e22;
+        }
+
+        .skills-right::-webkit-scrollbar-track {
+            background: #f0f2f5;
+        }
+
+        body.dark-theme .skills-right::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .projects {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .projects h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .projects h2 {
+            color: #e67e22;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s;
+        }
+
+        body.dark-theme .project-card {
+            background: #1a1a1a;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        body.dark-theme .project-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .project-content h3 {
+            color: #e67e22;
+        }
+
+        .project-content p {
+            font-size: 1rem;
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .project-content p {
+            color: wheat;
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 123, 255, 0.8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        body.dark-theme .project-overlay {
+            background: rgba(230, 126, 34, 0.8);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .contact {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .contact h2 {
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .contact h2 {
+            color: #e67e22;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s;
+        }
+        body.dark-theme .contact-card {
+            background: #1a1a1a;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .contact-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        body.dark-theme .contact-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+        }
+
+        .contact-card h3 {
+            font-size: 1.0rem;
+            margin-bottom: 0.5rem;
+            color: #808080;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .contact-card h3 {
+            color: #e67e22;
+        }
+        .contact-card a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        body.dark-theme .contact-card a {
+            color: wheat;
+        }
+
+        .contact-card a:hover {
+            color: #0056b3;
+        }
+
+        body.dark-theme .contact-card a:hover {
+            color: wheat;
+        }
+
+        footer {
+            background: #fff;
+            padding: 1rem;
+            text-align: center;
+            color: #666;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-theme footer {
+            background: #1a1a1a;
+            color: #e67e22;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero .profile-pic {
+                width: 150px;
+                height: 150px;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .chat-bubble {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .chat-overlay {
+                margin: 0;
+                border-radius: 0;
+                width: 100%;
+                max-width: none;
+                height: 100%;
+            }
+
+            .project-image {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <h2>Soumalya Roy</h2>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <img src="https://i.ibb.co/bMSCqztN/My-Pic2.jpg" alt="Profile Picture" class="profile-pic">
+            <h1>Hi, I'm <span class="name">Soumalya Roy</span></h1>
+            <h3>App Developer | UI/UX Designer | Passionate Coder</h3>
+            <p>An innovative and detail-oriented aspiring software developer with a strong grasp of Data Structures, Algorithms, and AI. Passionate about crafting efficient solutions and intuitive designs, with hands-on experience in web and app development and UI/UX.</p>
+        </div>
+    </section>
+    
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="skills-container">
+            <div class="skills-left">
+                <h2>My Tech Stack</h2>
+                <p>I’m a passionate developer with a solid foundation in modern technologies, blending creativity and technical expertise to build intuitive, efficient solutions.</p>
+            </div>
+            <div class="skills-right">
+                <div class="skill-card">
+                    <h3>JavaScript</h3>
+                    <p>Proficient in Dart, React, and Node.js alongside basic technical skills.</p>
+                </div>
+                <div class="skill-card">
+                    <h3>HTML/CSS</h3>
+                    <p>Expert in responsive design and modern CSS frameworks.</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Dart</h3>
+                    <p>Skilled in app development in FLUTTER framework.</p>
+                </div>
+                <div class="skill-card">
+                    <h3>UI/UX</h3>
+                    <p>Interactive visual layouts focusing on usability, accessibility, and satisfaction using Figma.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects" id="projects">
+        <h2>A Small Selection of my recent projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="https://ep-blog.s3.ap-south-1.amazonaws.com/images/2024/04/05175105/Top-10-Online-Shopping-Sites-India-1024x512.jpg" alt="Shopping App" class="project-image">
+                <div class="project-content">
+                    <h3>Shopping App</h3>
+                    <p>Modern e-commerce site with payment integration</p>
+                </div>
+                <div class="project-overlay">
+                    <p>Interactive data visualization of UI/UX</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://media.post.rvohealth.io/wp-content/uploads/2023/08/2769623-The-8-Best-Calorie-Counter-Apps-1296x728-Header-f0dec1.jpg" alt="Calorie Tracker" class="project-image">
+                <div class="project-content">
+                    <h3>Calorie Tracker</h3>
+                    <p>AI integrated Web app to maintain a healthy diet</p>
+                </div>
+                <div class="project-overlay">
+                    <p>Built with HTML/CSS and JavaScript</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="https://meetings.skift.com/wp-content/uploads/2018/09/410x272-FEAT-hompage-calculator.jpg" alt="Expense Buddy" class="project-image">
+                <div class="project-content">
+                    <h3>Expense Buddy</h3>
+                    <p>Mobile app for keeping a track of your daily expense</p>
+                </div>
+                <div class="project-overlay">
+                    <p>Flutter-based with dart and API support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="chat-bubble" onclick="toggleChat()">Let's Talk</div>
+
+    <div class="chat-overlay" id="chatOverlay">
+        <div class="chat-header">
+            <h3>Chat with Me</h3>
+            <button class="close-chat" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <section class="contact" id="contact">
+        <h2>Get In Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3>Email</h3>
+                <a href="mailto:soumalyaroy.adh@gmail.com">soumalyaroy.adh@gmail.com</a>
+            </div>
+            <div class="contact-card">
+                <h3>LinkedIn</h3>
+                <a href="https://www.linkedin.com/in/soumalya-roy-328aa2253/" target="_blank">linkedin.com/in/soumalya-roy/</a>
+            </div>
+            <div class="contact-card">
+                <h3>GitHub</h3>
+                <a href="https://github.com/Soumalya-roy" target="_blank">github.com/Soumalya-roy</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; <span id="year"></span> Soumalya Roy. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyAkQJ9o_Yufr8rmokDvtNMe8a88vM6GhW0",
+          authDomain: "portfolio-67fe8.firebaseapp.com",
+          projectId: "portfolio-67fe8",
+          storageBucket: "portfolio-67fe8.firebasestorage.app",
+          messagingSenderId: "931933253281",
+          appId: "1:931933253281:web:cccd48b55e58bb01878ae0",
+          measurementId: "G-V8LC040KP8"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+    
+    <script>
+
+        const myFullName = "Soumalya Roy";
+        const myDescription = "I'm Soumalya Roy, an innovative and detail-oriented aspiring software developer with a strong grasp of Data Structures, Algorithms, and AI. Passionate about crafting efficient solutions and intuitive designs, with hands-on experience in web and app development and UI/UX. Currently pursuing a B.Tech in CSE at Narula Institute of Technology, backed by an outstanding academic record—95% in ISC from The Aryans School. Enthusiastic about technology-driven creativity, blending logic with aesthetics to build engaging digital experiences. Beyond coding, finds inspiration in movies, crafts, and music, bringing a fresh perspective to problem-solving.";
+
+        // Smooth scrolling for nav links
+        document.querySelectorAll('.nav-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = document.querySelector(this.getAttribute('href'));
+                section.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Toggle chat overlay and show initial message
+        function toggleChat() {
+            const chatOverlay = document.getElementById('chatOverlay');
+            const chatBody = document.getElementById('chatBody');
+            if (chatOverlay.style.display === 'block') {
+                chatOverlay.style.display = 'none';
+            } else {
+                chatOverlay.style.display = 'block';
+                chatBody.innerHTML = ''; // Clear previous messages
+                const initialMsg = document.createElement('div');
+                initialMsg.className = 'message ai-message';
+                initialMsg.textContent = `Hi, I am ${myFullName}, what do you want to know about me?`;
+                chatBody.appendChild(initialMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        // Send message and show typing indicator
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const chatBody = document.getElementById('chatBody');
+            const message = input.value.trim();
+
+            if (message) {
+                // Add user message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'message user-message';
+                userMsg.textContent = message;
+                chatBody.appendChild(userMsg);
+
+                // Add typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'message ai-message typing-indicator';
+                typingIndicator.textContent = 'Typing...';
+                chatBody.appendChild(typingIndicator);
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+                // Call API and get response
+                const apiResponse = await callGeminiApi(message);
+
+                // Remove typing indicator
+                chatBody.removeChild(typingIndicator);
+
+                // Add AI response
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message ai-message';
+                aiMsg.textContent = apiResponse;
+                chatBody.appendChild(aiMsg);
+
+                input.value = '';
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        // Real API call to Gemini
+        async function callGeminiApi(message) {
+            const apiKey = "AIzaSyC7VeYlvzu2H-6K-09TQd3GgR3dD_wTO8k"; // Replace with your actual key
+            try {
+                const response = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `User_message:${message}. Reply naturally to the usermessage and if required then answer based on: ${myDescription} or just simply give friendly reply. Reply in short sentences as if Soumalya Roy is talking.`
+                                }]
+                            }]
+                        })
+                    }
+                );
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text; // Adjust based on actual API response structure
+            } catch (error) {
+                console.error('API call failed:', error);
+                return "Oops, something went wrong! Let’s try that again.";
+            }
+        }
+
+        // Simulate Gemini API response (for testing without API key)
+        async function simulateGeminiApi(message) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    if (message.toLowerCase().includes('what do you do')) {
+                        resolve(`Hey there! I’m Soumalya Roy. I’m a web developer, UI/UX designer, and creative thinker. Love building cool stuff! What else do you want to know?`);
+                    } else if (message.toLowerCase().includes('project')) {
+                        resolve(`Hi! I’ve worked on things like a Tech Dashboard with React, an E-Shop with Next.js, and a Travel App with Flutter. Pretty fun projects! What’s on your mind?`);
+                    } else {
+                        resolve(`Hey, good to chat! I’m Soumalya Roy. That’s an interesting question. I’d say I’m all about creating and designing. What’s up with you?`);
+                    }
+                }, 1000);
+            });
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        const skillCards = document.querySelectorAll('.skill-card');
+        const projectCards = document.querySelectorAll('.project-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        projectCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease';
+            observer.observe(card);
+        });
+        
+        skillCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(15px)';
+            card.style.transition = 'all 0.5s ease';
+            observer.observe(card);
+        });
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const themeToggle = document.querySelector('.theme-toggle');
+            themeToggle.textContent = document.body.classList.contains('dark-theme') ? '🔆' : '🌙';
+            localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+        }
+
+        window.onload = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.querySelector('.theme-toggle').textContent = '🔆';
+            } else {
+                document.querySelector('.theme-toggle').textContent = '🌙';
+            }
+
+            document.getElementById('year').textContent = new Date().getFullYear();
+        };
+    </script>
+</body>
+</html>
